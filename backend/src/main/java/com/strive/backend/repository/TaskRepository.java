@@ -1,0 +1,13 @@
+package com.strive.backend.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.strive.backend.model.Task;
+import com.strive.backend.model.User;
+
+
+public interface TaskRepository extends JpaRepository<Task, Long> {
+    List<Task> findByUser(User user);
+}
