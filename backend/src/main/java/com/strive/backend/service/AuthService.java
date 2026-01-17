@@ -1,5 +1,5 @@
 package com.strive.backend.service;
-
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -30,12 +30,17 @@ public class AuthService {
     }
 
     public User login(String email, String password) {
-        
-        User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        User user = optionalUser.get();
 
         if (!user.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid password");
+            throw new RuntimeException("Invalid email or password");
         }
 
         return user;
